@@ -47,6 +47,8 @@ secure_app <- function(ui,
   }
 
   function(request) {
+    
+    request2 <<- request
     query <- parseQueryString(request$QUERY_STRING)
     print(query)
 
@@ -60,6 +62,7 @@ secure_app <- function(ui,
     }
 
     if (.tok$is_valid(token)) {
+      print("I am here")
       is_forced_chg_pwd <- is_force_chg_pwd(token = token)
 
       if (is_forced_chg_pwd || is.na(is_forced_chg_pwd)) {
