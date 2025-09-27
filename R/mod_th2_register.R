@@ -121,7 +121,10 @@ signup_server <- function(id, parent_session, lan = NULL) {
         )
       } else {
         current_data <- th2product::fetch_data_from_db(table = "credentials")
-        current_data <- current_data[, c("username", "password", "start_time", "expire_time", "is_admin")]
+        current_data <- current_data %>%
+          dplyr::select(
+            username
+          )
         if (input$new_user_id %in% current_data$username) {
           print("Condition Same Username trigg")
           res_signup <- list(result = FALSE, message = "Username already exists")
@@ -132,6 +135,7 @@ signup_server <- function(id, parent_session, lan = NULL) {
               password = input$new_user_pwd,
               start_time = as.Date(Sys.Date()),
               expire_time = as.Date(Sys.Date() + 365),
+              applications = get_appname(),
               is_admin = FALSE
             )
           config_path <- system.file("sql_config/pg_template.yml", package = "th2coldorg")
