@@ -27,6 +27,9 @@ get_auto_sqlite_reader <- function() {
 }
 
 get_appname <- function() {
+  if(Sys.getenv("CURRENT_APP") != ""){
+    return(Sys.getenv("CURRENT_APP"))
+  }
   getOption("shinymanager.application", default = basename(getwd()))
 }
 
