@@ -64,7 +64,7 @@ signup_ui <- function(id, status = "primary", tags_top = NULL, tags_bottom = NUL
 }
 
 #' @export
-signup_server <- function(id, parent_session, lan = NULL) {
+signup_server <- function(id, parent_session, lan = NULL, project_configs = "th2coldorg") {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     if (is.null(lan)) {
@@ -138,7 +138,7 @@ signup_server <- function(id, parent_session, lan = NULL) {
               applications = get_appname(),
               is_admin = FALSE
             )
-          config_path <- system.file("sql_config/pg_template.yml", package = "th2coldorg")
+          config_path <- system.file("sql_config/pg_template.yml", package = project_configs)
           config_db <- tryCatch(
             {
               yaml::yaml.load_file(config_path, eval.expr = TRUE)
