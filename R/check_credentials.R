@@ -143,11 +143,13 @@ check_credentials_df <- function(user, password, credentials_df) {
   if (hasName(credentials_df, "applications")) {
     appname <- get_appname()
     appsnames <- credentials_df$applications[credentials_df$user == user]
-    appsnames <- strsplit(x = as.character(appsnames), split = ";")
-    appsnames <- unlist(x = appsnames, use.names = FALSE)
-    if (!isTRUE(appname %in% appsnames)) {
-      good_password <- FALSE
-      authorized <- FALSE
+    if (!is.null(appsnames) && length(appsnames) > 0 && !all(is.na(appsnames)) && !all(appsnames == "")) {
+      appsnames <- strsplit(x = as.character(appsnames), split = ";")
+      appsnames <- unlist(x = appsnames, use.names = FALSE)
+      if (!isTRUE(appname %in% appsnames)) {
+        good_password <- FALSE
+        authorized <- FALSE
+      }
     }
   }
   if (good_password) {
